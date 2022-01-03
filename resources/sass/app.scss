@@ -1,0 +1,53 @@
+@import "~bootstrap/scss/bootstrap";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+
+table{
+    thead{
+        tr{
+            background: $primary !important;
+            color: #fff;
+            border-color: $primary;
+            -webkit-print-color-adjust: exact;
+        }
+    }
+}
+
+.checkbox-toggle {
+    input {
+        accent-color: $warning;
+    }
+}
+
+.modal-header{
+    background-color: $primary;
+    color: #fff;
+}
+
+
+@media print {
+    .imprimir-lista{
+        font-size: 10px;
+
+        .container{
+            all: unset;
+        }
+
+        .col-md-6 {
+            width:50%;
+            float:left
+        }
+
+        .table > :not(caption) > * > *{
+           padding: 0;
+        }
+
+        .table-responsive{
+            margin: 1em;
+        }
+    }
+}
+
+
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "Carregando…" }
