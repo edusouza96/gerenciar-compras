@@ -13,10 +13,18 @@
                 <h2>Lista de Mercado</h2>
             </div>
         </header>
-        <main class="imprimir-lista">
+        <main class="imprimir-lista" id="app">
             <div class="container">
-                <div class="row pb-3 d-print-none text-end">
-                    <div class="col-md-12">
+                <div class="row pb-3 d-print-none">
+                    <div class="col-md-6 text-center">
+                        <div class="form-group">
+                            <label>Listas Disponiveis</label>
+                            <select class="form-control">
+                                <option v-for="lista in listasDisponiveis" :value="lista.mes_ano" class="text-center">@{{ lista.mes_ano }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-end">
                         <div class="">
                             <a href="{{ route('listas.montar') }}" class="btn btn-warning">Montar Lista</a>
 
@@ -25,8 +33,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    @foreach ($listas as $lista)
-                        <div class="col-md-6">
+                        <div class="col-md-6" v-for="lista in listas">
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover table-bordered">
                                     <thead>
@@ -37,22 +44,46 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($lista as $item)
-                                            <tr>
-                                                <td>{{ $item->produto->nome }}</td>
-                                                <td>{{ $item->quantidade_estoque }}</td>
-                                                <td>{{ $item->quantidade_comprar }}</td>
+                                            <tr v-for="item in lista">
+                                                <td>@{{ item.produto.nome }}</td>
+                                                <td>@{{ item.quantidade_estoque }}</td>
+                                                <td>@{{ item.quantidade_comprar }}</td>
                                             </tr>
-                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    @endforeach
                 </div>
             </div>
         </main>
     </body>
 
     <script src="{{ mix('/js/app.js') }}"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            data() {
+                return {
+                    listas: [],
+                    listasDisponiveis: [],
+                }
+            },
+            methods: {
+                buscarLista(){
+                    $.get(@json(route('listas.lista.json', $mesAno))).done(function(listas){
+                        this.listas = listas;
+                    }.bind(this));
+                },
+                popularComboListasDisponiveis(){
+                    $.get(@json(route('listas.listas-disponiveis.json'))).done(function(listas){
+                        this.listasDisponiveis = listas;
+                    }.bind(this));
+                }
+            },
+            created() {
+                this.popularComboListasDisponiveis();
+                this.buscarLista();
+            },
+        })
+    </script>
 </html>

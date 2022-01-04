@@ -21,6 +21,8 @@ Route::group(['prefix' => 'lista'], function () {
     Route::get('montar', ['as' => 'listas.montar', 'uses' => 'ListaController@montar']);
     Route::post('salvar', ['as' => 'listas.salvar', 'uses' => 'ListaController@salvar']);
     Route::get('visualizar/{mesAno}', ['as' => 'listas.visualizar', 'uses' => 'ListaController@visualizar']);
+    Route::get('lista/json/{mesAno}', ['as' => 'listas.lista.json', 'uses' => 'ListaController@listaJson']);
+    Route::get('lista-disponivel/json', ['as' => 'listas.listas-disponiveis.json', 'uses' => 'ListaController@listasDisponiveisJson']);
 });
 
 Route::group(['prefix' => 'produtos'], function () {

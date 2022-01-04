@@ -8,7 +8,7 @@ class Produto extends Model
 {
     protected $table = 'produtos';
     protected $fillable = ['nome', 'quantidade'];
-    protected $appends = ['quantidade_estoque', 'quantidade_comprar'];
+    protected $appends = ['quantidade_estoque', 'quantidade_comprar', 'checked'];
     public $timestamps  = false;
 
     public function getQuantidadeEstoqueAttribute()
@@ -18,5 +18,9 @@ class Produto extends Model
     public function getQuantidadeComprarAttribute()
     {
         return 0;
+    }
+    public function getCheckedAttribute()
+    {
+        return false;
     }
 }

@@ -38,7 +38,18 @@ class ListaController extends Controller
 
     public function visualizar($mesAno)
     {
+        return view('listas.visualizar', compact('mesAno'));
+    }
+
+    public function listaJson($mesAno)
+    {
         $listas = Lista::where('mes_ano', $mesAno)->get()->sortBy('produto.nome')->split(2);
-        return view('listas.visualizar', compact('listas'));
+        return response()->json($listas);
+    }
+
+    public function listasDisponiveisJson()
+    {
+        $listas = Lista::select('mes_ano')->distinct()->get();
+        return response()->json($listas);
     }
 }

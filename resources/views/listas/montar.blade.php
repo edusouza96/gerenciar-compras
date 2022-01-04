@@ -39,7 +39,7 @@
                                     <tbody>
                                         <tr v-for="produto in produtos">
                                             <td class="text-center">
-                                                <input type="checkbox" name="produtos[]" :value="produto.id" :checked="toogleCheckbox">
+                                                <input type="checkbox" name="produtos[]" :id="'produto'+produto.id" :value="produto.id" :checked="produto.checked || toogleCheckbox">
                                             </td>
                                             <td>@{{ produto.nome }}</td>
                                             <td>@{{ produto.quantidade }}</td>
@@ -123,9 +123,11 @@
                 },
                 completarComprar(produto){
                     produto.quantidade_comprar = produto.quantidade;
+                    produto.checked = true;
                 },
                 zerarComprar(produto){
                     produto.quantidade_comprar = 0;
+                    produto.checked = false;
                 },
                 diminuirEstoque(produto){
                     produto.quantidade_estoque --;
@@ -137,9 +139,15 @@
                 },
                 diminuirComprar(produto){
                     produto.quantidade_comprar --;
+                    if(produto.quantidade_comprar <= 0){
+                        produto.checked = false;
+                    }
                 },
                 adicionarComprar(produto){
                     produto.quantidade_comprar ++;
+                    if(produto.quantidade_comprar > 1){
+                        produto.checked = true;
+                    }
                 },
             },
             created() {
